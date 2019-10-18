@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+// const User = require('./userModel')
 
 
 const tourSchema =new mongoose.Schema({
@@ -59,11 +60,45 @@ const tourSchema =new mongoose.Schema({
         default:Date.now(),
         select:false
     },
+    guides:[{
+        type:mongoose.Schema.ObjectId,
+        ref:'User'
+    }],
+    startLocation:{
+        type:{
+            type:String,
+            default:'Point',
+            enum:['Point']
+        },
+        coordinates:[Number],
+        address:String,
+        description:String
+    },
+    locations:{
+        type:{
+            type:String,
+            default:'Point',
+            enum:['Point']
+        },
+        coordinates:[Number],
+        address:String,
+        description:String,
+        day:Number
+    },
     startDates:[Date]
- },{
+   },
+   {
      toJSON:{virtuals:true},
      toObject:{virtuals:true},
- });
+ }
+ );
+
+//  tourSchema.pre(/^find/,function(next){
+//      this.populate({
+//         path:'guides',
+//         select:'-__v -passwordChangedAt'
+//     })
+//  })
 
  tourSchema.virtual('durationweeks').get(function(){
      return this.duration / 7;
@@ -72,9 +107,12 @@ const tourSchema =new mongoose.Schema({
     this.slug = slugify(this.name,{lower:true});
     next();
  });
-//  tourSchema.post('save',function(doc,next){
 
+//  tourSchema.post('save',async function(next){
+//     const guidesPromises = this.guides.map(async id=> await User.findById(id));
+//     this.guides = await Promise.all(guidesPromises);
+//     next();
 //  })
 
  const Tour = mongoose.model('Tour',tourSchema);
- module.exports = Tour;
+ module.exports = Tour; 

@@ -49,7 +49,7 @@ const userSchema = mongoose.Schema({
     
 });
 
-
+//password hashing...
 userSchema.pre('save',async function(next){
     if(!this.isModified('password')) return next();
 
@@ -58,9 +58,11 @@ userSchema.pre('save',async function(next){
     next();
 });
 
+//password validation...
 userSchema.methods.correctPassword = async function(candidatePassword,userPassword){
     return await bcrypt.compare(candidatePassword,userPassword)
 }
+
 
 userSchema.pre('save',function(next){
     if (this.isModified('password')|| this.isNew) return next();
@@ -69,6 +71,7 @@ userSchema.pre('save',function(next){
     next();
 })
 
+//midleware to filter search users
 userSchema.pre(/^find/,function(next){
     this.find({active:{$ne:false}});
     next();
@@ -89,6 +92,8 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
     return false;
 };
 
+
+//midleware to check password reset token
 userSchema.methods.createPasswordResetToken = function() {
     const resetToken = crypto.randomBytes(32).toString('hex');
   
