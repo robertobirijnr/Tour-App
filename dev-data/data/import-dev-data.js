@@ -1,7 +1,7 @@
 const fs = require('fs')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose');
-const Tour = require('../../models/tourModel')
+const Review = require('../../models/reviewModels')
 dotenv.config({path:'./config.env'})
 
 // console.log(process.env);
@@ -14,12 +14,12 @@ mongoose.connect(process.env.DATABASE_LOCAL,{
 console.log('connection successful')
 });
 
-const tours =JSON.parse(
-    fs.readFileSync(`${__dirname}/tours.json`,'utf-8'));
+const reviews =JSON.parse(
+    fs.readFileSync(`${__dirname}/reviews.json`,'utf-8'));
 
 const importData = async () =>{
     try {
-        await Tour.create(tours);
+        await Review.create(reviews,{validateBeforeSave:false});
         console.log('Data successfully loaded')
         process.exit();
     } catch (err) {
@@ -30,7 +30,7 @@ const importData = async () =>{
 //delete all
 const deleteData = async () =>{
     try {
-        await Tour.deleteMany()
+        await Users.deleteMany()
         console.log('Data successfuldelete');
         process.exit();
     } catch (err) {
