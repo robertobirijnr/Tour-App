@@ -1,7 +1,7 @@
 const fs = require('fs')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose');
-const Review = require('../../models/reviewModels')
+const User = require('../../models/userModel')
 dotenv.config({path:'./config.env'})
 
 // console.log(process.env);
@@ -14,12 +14,12 @@ mongoose.connect(process.env.DATABASE_LOCAL,{
 console.log('connection successful')
 });
 
-const reviews =JSON.parse(
-    fs.readFileSync(`${__dirname}/reviews.json`,'utf-8'));
+const users =JSON.parse(
+    fs.readFileSync(`${__dirname}/users.json`,'utf-8'));
 
 const importData = async () =>{
     try {
-        await Review.create(reviews,{validateBeforeSave:false});
+        await User.create(users,{validateBeforeSave:false});
         console.log('Data successfully loaded')
         process.exit();
     } catch (err) {
