@@ -26,3 +26,11 @@ exports.getTour = catchAsync(async(req,res,next)=>{
         title:'Log into account'
     })
   }
+
+  exports.getAccount=(req,res)=>{
+    res.status(200).render('account.pug',{
+      title:'Your account'
+    });
+  }
+
+ 
