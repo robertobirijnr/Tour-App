@@ -27,6 +27,7 @@ app.use(express.static(__dirname + '/public'));
 // Set security HTTP headers
 app.use(helmet());
 app.use(morgan('dev'));
+app.use(express.urlencoded({extended:true}))
 
 
 // Limit requests from same API
