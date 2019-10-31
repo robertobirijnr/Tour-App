@@ -15,7 +15,8 @@ const userSchema = mongoose.Schema({
         match:/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
         },
         photo:{
-            type:String
+            type:String,
+            default:'default.jpg'
         },
         role:{
             type:String,
